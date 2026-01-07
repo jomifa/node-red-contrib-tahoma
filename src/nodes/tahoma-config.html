@@ -53,6 +53,12 @@
         $('.hidden-on-ok').show();
         $('.shown-on-ok').hide();
       });
+	  
+      $('#node-config-input-autodiscovery').on('change', () => {
+          if ($(this).is(':checked')){
+              $('#node-config-input-url').show();
+          }
+      });
     },
   });
 </script>
@@ -79,9 +85,13 @@
     <label for="node-config-input-token"><i class="icon-bookmark"></i> Token:</label>
     <input type="text" disabled="disabled" id="node-config-input-token">
   </div>
+  <div class="form-row api-credentials shown-on-ok"">
+    <label for="node-config-input-autodiscovery"><i class="icon-bookmark"></i> Autodiscovery:</label>
+    <input type="checkbox" id="node-config-input-autodiscovery" checked="checked">
+  </div>
   <div class="form-row api-credentials shown-on-ok" style="display: none;">
     <label for="node-config-input-url"><i class="icon-bookmark"></i> Tahoma URL:</label>
-    <input type="text" id="node-config-input-url" placeholder="example: http://gateway-1234-5678-9123:8765">
+    <input type="text" id="node-config-input-url" placeholder="example: http://gateway-1234-5678-9123:8443">
   </div>
 
   <div class="form-error" style="border:  1px solid #AD1625;padding:  10px;color:  #AD1625;margin-bottom: 10px; display: none;">An error occurred. Please ensure your credentials and PIN code are correct.</div>

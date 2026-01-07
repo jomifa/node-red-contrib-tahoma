@@ -13,23 +13,30 @@ interface ITahomaControlPayload {
   orientation: string;
   position: string;
   lowspeed: boolean;
+  onOff: string;
+  intensity: number;
   repetitions: string;
 }
 
 enum TahomaCommands {
   OPEN = 'open',
   CLOSE = 'close',
-  ROTATION = 'rotation',
+  ROTATION = 'rotation',  // or should be 'setOrientation' ? to avoid issues with local API according to marekhalmo as mentioned in issue #62 on nikkow/node-red-contrib-tahoma 
   STOP = 'stop',
   SET_CLOSURE = 'setClosure',
   SET_CLOSURE_AND_ORIENTATION = 'setClosureAndOrientation',
+  ON = 'on',
+  OFF = 'off',
+  SET_INTENSITY = 'setIntensity',
+  SET_ONOFF = 'setOnOff',
+  TOGGLE = 'toggle',
   WINK = 'wink'
 }
 
 interface ITahomaControlInstructions {
   command: TahomaCommands;
   parameters?: number[];
-  expectedState?: { open?: boolean; position?: number; orientation?: number; repetitions?: number };
+  expectedState?: { open?: boolean; position?: number; orientation?: number; onOff?: string; intensity?: number; repetitions?: number};
   labels: {
     done: string;
     progress: string;
@@ -120,6 +127,18 @@ export = (RED: nodered.NodeAPI) => {
   );
 };
 
+function getBoolean(value: any) : boolean
+{ 
+  switch(String(value).toLowerCase()) { 
+    case "true": 
+    case "1": 
+    case "on": 
+    case "yes": 
+      return true; 
+  }
+  return false; 
+}
+
 function generateInstructionsFromPayload(
   payload: ITahomaControlPayload,
 ): ITahomaControlInstructions | null {
@@ -181,7 +200,6 @@ function generateInstructionsFromPayload(
         parameters: [parseInt(payload.position, 10), parseInt(payload.orientation, 10)],
       };
 
-
     case 'stop':
       return {
         command: TahomaCommands.STOP,
@@ -190,6 +208,58 @@ function generateInstructionsFromPayload(
           progress: `Stopping...`,
         },
       };
+
+    case 'on':
+      return {
+        command: TahomaCommands.ON,
+        labels: {
+            done: `On`,
+            progress: `Turning on...`,
+        },
+//        expectedState: { onOff: "on"},
+    }
+
+    case 'off':
+      return {
+        command: TahomaCommands.OFF,
+        labels: {
+            done: `Off`,
+            progress: `Turning off...`,
+        },
+//        expectedState: { onOff: "off"},
+    }
+
+    case 'toggle':
+      return {
+          command: TahomaCommands.TOGGLE,
+        labels: {
+            done: `Toggled`,
+            progress: `Toggling state ...`,
+        },
+//        expectedState: { onOff: "off"},
+    }
+
+    case 'setOnOff':
+      return {
+        command: TahomaCommands.SET_ONOFF,
+        labels: {
+            done: `${payload.onOff}`,
+            progress: `Turning ${payload.onOff}...`,
+        },
+//        expectedState: { onOff: "off"},
+        parameters: [+getBoolean(payload.onOff)]
+    }
+
+    case 'setIntensity':
+      return {
+        command: TahomaCommands.SET_INTENSITY,
+        parameters: [payload.intensity],
+        labels: {
+          done: `Set intensity to ${payload.intensity}`,
+          progress: `Setting intensity to ${payload.intensity}`,
+        },
+//        expectedState: { intensity: payload.intensity},
+    }
 
     case 'wink':
       return {
