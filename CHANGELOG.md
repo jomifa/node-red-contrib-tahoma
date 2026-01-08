@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-beta.6] - 2026-01-08
+
+---
+
+⚠️ This release is a **beta** release. Use it at your own risk.
+
+---
+
+---
+
+🚨 **This release is a major version and contains some breaking changes. Please read the list below.**
+
+---
+
+### Added
+
+- Merged @packyr fork with @blondak fork.
+- Merged pull request #62 from original Nikkow version.
+- Added scope in package name as per Node Red updated naming requirements since 31st January 2022.
+
 ## [3.0.0-beta.5] - 2022-06-04
 
 ---
