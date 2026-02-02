@@ -41,13 +41,13 @@ This node relies on the Local API provided by Somfy, and available on the Tahoma
 
 You will need to **enable the developer mode** on your Somfy account to use this module. This [guide](https://github.com/nikkow/node-red-contrib-tahoma/wiki/How-to-enable-the-developer-mode%3F) will walk you through this process.
 
-When creating your first node, you will be asked to provide your e-mail and password used to login to your Somfy account. These will be used to generate a token to interact with your box (they will not be saved at all on your instance). The pin code of your box will also be required. This information is available on your Somfy account.
+When creating your first node, you will be asked to provide your e-mail and password used to login to your TaHoma mobile app. These will be used to generate a token to interact with your box (they will not be saved at all on your instance). The pin code of your TaHoma box will also be required. This information is available in the TaHoma mobile app and on the sticker below the box.
 
 ## Usage
 
 ### Node `tahoma`
 
-This node accepts an object as input. The following properties will be parsed:
+This node accepts a JSON object as msg.payload input. The following properties will be parsed:
 
 | Property | Type | Required? | Description |
 | -------- | ---- | --------- | ----------- |
@@ -62,9 +62,16 @@ Currently, only a few commands are understood by this node. The possible values 
 
 * `open`: This will open the device (door, blind...)
 * `close`: This will close the device
+* `on`: This will set the device ON (light, ...)
+* `off`: This will set the device OFF (light, ...)
+* `setOnOff`: This will set the device ON or OFF (light, ...). The action is passed using the `onOff` boolean property (1=ON, 0=OFF), which is required in this mode.
+* `setIntensity`: This will set the device intensity (light, ...). The action is passed using the `intensity` property, which is required in this mode.
+* `toggle`: This will toggle the device
 * `stop`: This will stop all running actions
 * `customPosition`: This will set the device to a custom position. The position is passed using the `position` property, which is required in this mode.
-* `customRotation`: This will set the device (blinds) to a custom rotation. The rotation is passed using the `orientation` property, which is required in this mode.
+* `customRotation` or `customOrientation`: This will set the device (blinds) to a custom rotation. The rotation is passed using the `orientation` property, which is required in this mode.
+* `customClosureAndOrientation`: This will set the device (blinds) to a custom closure and rotation. The rotation is passed using the `orientation` property and the position is passed using the `position` property, which are both required in this mode.
+* `wink`: This will make the device wink. The action is passed using the `repetitions` property, which are both required in this mode.
 
 #### Output
 

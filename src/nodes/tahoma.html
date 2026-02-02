@@ -82,7 +82,7 @@
   	<input type="text" id="node-input-name">
   </div>
   <div class="form-row">
-  	<label for="node-input-tahomabox"><i class="icon-tag"></i> Account</label>
+  	<label for="node-input-tahomabox"><i class="icon-tag"></i> TaHoma Box</label>
   	<input type="text" id="node-input-tahomabox">
   </div>
   <div class="form-row">
@@ -92,16 +92,26 @@
 </script>
 
 <script type="text/x-red" data-help-name="tahoma">
-  <p>Sends a command to a Somfy device.</p>
+  <p>Sends a command to a Somfy device using a JSON input in msg.payload.</p>
 
   <h3>Inputs</h3>
   <dl class="message-properties">
     <dt>action <span class="property-type">string</span></dt>
-    <dd>this can take one of the following values: <code>open</code>, <code>close</code>, <code>stop</code> or <code>customPosition</code></dd>
+    <dd>This can take one of the following values: <code>open</code>, <code>close</code>, <code>on</code>, <code>off</code>, <code>toggle</code>, <code>wink</code>, <code>stop</code>, <code>customPosition</code>, <code>customRotation</code>, <code>customOrientation</code>, <code>customClosureAndOrientation</code>, <code>setOnOff</code> or <code>setIntensity</code>,</dd>
     <dt>position <span class="property-type">integer (0-100)</span></dt>
-    <dd>this applies for <code>customPosition</code> actions. this actually determines the opening percentage to apply (100 = fully closed)</dd>
+    <dd>This applies for <code>customPosition</code> actions. This actually determines the opening percentage to apply (100 = fully closed, the opposite of how % are mentioned in the TaHoma mobile app).</dd>
+    <dd>For compatible systems, this also applies for <code>customClosureAndOrientation</code> action used together with orientation below.</dd>
+    <dt>orientation <span class="property-type">integer (0-100)</span></dt>
+    <dd>This applies for <code>customRotation</code> and <code>customOrientation</code> actions. This actually determines the orientation to apply (100 = fully closed, 0 = fully open, the opposite of how % are mentioned in the TaHoma mobile app).</dd>
+    <dd>For compatible systems, this also applies for <code>customClosureAndOrientation</code> action used together with position above.</dd>
+    <dt>onOff <span class="property-type">string</span></dt>
+    <dd>This applies for <code>setOnOff</code> actions. this actually set on for 1, off for 0 (string input converts to boolean in code).</dd>
+    <dt>intensity <span class="property-type">number</span></dt>
+    <dd>This applies for <code>setIntensity</code> actions. this actually set the intensity.</dd>
+    <dt>repetitions <span class="property-type">string</span></dt>
+    <dd>This applies for <code>wink</code> actions. this actually set the number of winking time(s).</dd>
     <dt>lowspeed <span class="property-type">boolean</span></dt>
-    <dd>for compatible systems, sends the command as lowspeed, to decrease the speed of the wanted action. Default: false</dd>
+    <dd>For compatible systems, sends the command as lowspeed, to decrease the speed of the wanted action. Default: false.</dd>
   </dl>
 
   <h3>Outputs</h3>
