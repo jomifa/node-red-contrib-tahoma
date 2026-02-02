@@ -10,9 +10,9 @@ export class SomfyApi {
   private configNode: Node;
   private axiosInstance: AxiosInstance;
 
-  static async getSessionId(userId: string, userPwd: string) {
+  static async getSessionId(userId: string, userPwd: string, somfyOverkizSrvUrl: string,) {
     return axios({
-      url: 'https://ha101-1.overkiz.com/enduser-mobile-web/enduserAPI/login',
+      url: `${somfyOverkizSrvUrl}/login`,
       method: 'POST',
       data: `userId=${userId}&userPassword=${userPwd}`,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -42,14 +42,15 @@ export class SomfyApi {
     userId: string,
     userPwd: string,
     tahomaPin: string,
+    somfyOverkizSrvUrl: string,
   ) {
-    const sessionId = await SomfyApi.getSessionId(userId, userPwd);
+    const sessionId = await SomfyApi.getSessionId(userId, userPwd, somfyOverkizSrvUrl);
     if (sessionId === null) {
       return null;
     }
 
     const response = await axios({
-      url: `https://ha101-1.overkiz.com/enduser-mobile-web/enduserAPI/config/${tahomaPin}/local/tokens/generate`,
+      url: `${somfyOverkizSrvUrl}/config/${tahomaPin}/local/tokens/generate`,
       method: 'GET',
       headers: {
         Cookie: `JSESSIONID=${sessionId}`,
@@ -61,8 +62,8 @@ export class SomfyApi {
       return null;
     }
 
-    await SomfyApi.activateLocalToken(token, tahomaPin, sessionId);
 
+    await SomfyApi.activateLocalToken(token, tahomaPin, sessionId, somfyOverkizSrvUrl,);
     return token;
   }
 
@@ -70,14 +71,27 @@ export class SomfyApi {
     token: string,
     pin: string,
     sessionId: string,
+    somfyOverkizSrvUrl: string,
   ) {
+    // Current date and time
+    const now = new Date();
     return axios({
-      url: `https://ha101-1.overkiz.com/enduser-mobile-web/enduserAPI/config/${pin}/local/tokens`,
+      url: `${somfyOverkizSrvUrl}/config/${pin}/local/tokens`,
       method: 'POST',
       data: {
         token,
         scope: 'devmode',
-        label: 'Node RED Instance',
+        label: 
+          'Node RED Instance ' + 
+          now.getFullYear() + 
+          `${now.getMonth() + 1 < 10 ? '0' : ''}${now.getMonth() + 1}`+ 
+          `${now.getDate() < 10 ? '0' : ''}${now.getDate()}` + 
+          '-' + 
+          now.getHours() + 
+          'h' + 
+          now.getMinutes() + 
+          'm' + 
+          now.getSeconds(),
       },
       headers: {
         'Content-Type': 'application/json',
@@ -117,6 +131,9 @@ export class SomfyApi {
   }
 
   private getGatewayUrl(): string {
+    if (!this.configNode || !this.configNode['url']) {
+      return undefined;
+    }
     return `${this.configNode['url']}/enduser-mobile-web/1/enduserAPI`;
   }
 

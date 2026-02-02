@@ -24,8 +24,8 @@
       );
 
       var loadDevices = function () {
-        const tahoma_account_id = $('#node-input-tahomabox').val();
-        if (tahoma_account_id === '_ADD_') {
+        const tahoma_config_node_id = $('#node-input-tahomabox').val();
+        if (tahoma_config_node_id === '_ADD_') {
           $('#node-input-device')
             .empty()
             .html(
@@ -33,8 +33,8 @@
             );
           return;
         }
-
-        $.get('/somfy/' + tahoma_account_id + '/devices').then(
+        // RED.notify("LoadDevices:" + tahoma_config_node_id, { type: "warning", timeout: 5000 }); // For debugging
+        $.get('/somfy/' + tahoma_config_node_id + '/devices').then(
           function (devices, statusCode) {
             if (!devices || devices.length === 0) {
               $('#node-input-device')
@@ -87,12 +87,13 @@
   	<input type="text" id="node-input-name">
   </div>
   <div class="form-row">
-    <label for="node-input-tahomabox"><i class="icon-tag"></i> Account</label>
+    <label for="node-input-tahomabox"><i class="icon-tag"></i> TaHoma Box</label>
   	<input type="text" id="node-input-tahomabox">
   </div>
   <div class="form-row">
     <label for="node-input-device"><i class="icon-tag"></i> Device</label>
   	<input type="text" id="node-input-device">
+    <p><i>Note: The drop-down list of devices will be empty until a newly created TaHoma Box config node is deployed.</i></p>
   </div>
 </script>
 

@@ -21,25 +21,26 @@ export = (RED: nodered.NodeAPI): void => {
   );
 
   RED.httpAdmin.post('/somfy/get-token', async (request, response) => {
-    const { userId, userPassword, tahomaPin } = request.body;
-    const token = await SomfyApi.getLocalToken(userId, userPassword, tahomaPin);
-
-    const _discovery = new DiscoveryService();
-    const devices = await _discovery.getDevices(tahomaPin);
-
+    const { userId, userPassword, tahomaPin, somfyOverkizSrvUrl, boxDiscovery, } = request.body;
+    const token = await SomfyApi.getLocalToken(userId, userPassword, tahomaPin, somfyOverkizSrvUrl);
     if (token === null) {
       response.status(HttpResponse.BAD_REQUEST);
       response.send();
       return;
     }
-
-    response.json({ token, devices });
+    if(boxDiscovery === true){
+      const _discovery = new DiscoveryService();
+      const devices = await _discovery.getDevices(tahomaPin);
+      response.json({ token: token, devices });
+    }
+    else{
+          response.json({ token: token });
+    }
   });
 
   RED.httpAdmin.get('/somfy/:account/devices', function (req, res) {
-    const configNode = RED.nodes.getNode(req.params.account);
+    const configNode = RED.nodes.getNode(req.params.account); // Get config node
     const somfyApiClient = new SomfyApi(configNode);
-
     somfyApiClient
       .getDevices()
       .then((devices: IDevice[]) => {
