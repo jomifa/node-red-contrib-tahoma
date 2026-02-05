@@ -1,0 +1,120 @@
+<script type="text/javascript">
+  RED.nodes.registerType('tahoma-read', {
+    category: 'function',
+    color: '#E2D96E',
+    defaults: {
+      tahomabox: { value: '', type: 'tahoma-config' },
+      name: { value: '' },
+      device: { value: '' },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'bridge-dash.png',
+    label: function () {
+      return this.name || 'Tahoma Readable Element';
+    },
+    labelStyle: function () {
+      return this.name ? 'node_label_italic' : '';
+    },
+    oneditprepare: function generateEditForm() {
+      var selected_device = $('#node-input-device').val();
+
+      $('#node-input-device').replaceWith(
+        '<select id="node-input-device" name="node-input-device" style="width: 250px;">',
+      );
+
+      var loadDevices = function () {
+        const tahoma_config_node_id = $('#node-input-tahomabox').val();
+        if (tahoma_config_node_id === '_ADD_') {
+          $('#node-input-device')
+            .empty()
+            .html(
+              '<option value="_NO_DEVICE_" selected="selected">No devices found.</option>',
+            );
+          return;
+        }
+        // RED.notify("LoadDevices:" + tahoma_config_node_id, { type: "warning", timeout: 5000 }); // For debugging
+        $.get('/somfy/' + tahoma_config_node_id + '/devices').then(
+          function (devices, statusCode) {
+            if (!devices || devices.length === 0) {
+              $('#node-input-device')
+                .empty()
+                .html(
+                  '<option value="_NO_DEVICE_" selected="selected">No devices found.</option>',
+                );
+              return;
+            }
+
+            var html = '';
+
+            $.each(devices, function (key, value) {
+              if (value && value.name) {
+                var selected =
+                  value.id === selected_device ? 'selected="selected"' : '';
+                html +=
+                  '<option value="' +
+                  value.id +
+                  '"' +
+                  selected +
+                  '>' +
+                  value.name +
+                  '</option>';
+              }
+            });
+
+            $('#node-input-device').empty().html(html);
+            $('#node-input-device').prop('disabled', false);
+          },
+          function (error) {
+            $('#node-input-device')
+              .empty()
+              .prop('disabled', true)
+              .html(
+                `<option value="${selected_device}">${selected_device}</option>`,
+              );
+          },
+        );
+      };
+
+      $('#node-input-tahomabox').on('change', loadDevices);
+    },
+  });
+</script>
+
+<script type="text/x-red" data-template-name="tahoma-read">
+  <div class="form-row">
+  	<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+  	<input type="text" id="node-input-name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-tahomabox"><i class="icon-tag"></i> TaHoma Box</label>
+  	<input type="text" id="node-input-tahomabox">
+  </div>
+  <div class="form-row">
+    <label for="node-input-device"><i class="icon-tag"></i> Device</label>
+  	<input type="text" id="node-input-device">
+    <p><i>Note: The drop-down list of devices will be empty until a newly created TaHoma Box config node is deployed.</i></p>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="tahoma-read">
+  <p>Reads the current status of a Somfy equipment.</p>
+
+  <h3>Inputs</h3>
+  <p>This node has no input.</p>
+
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+  	<dt>payload <span class="property-type">IDevice</span></dt>
+  	<dd>the current status of the requested device</dd>
+  </dl>
+
+
+  <h3>Details</h3>
+  <p><code>msg.payload</code> contains the full response returned by Somfy Local API for a given device. It includes its current states, capabilities, and metadata. Check the references for more information.</p>
+
+  <h3>References</h3>
+  <ul>
+    <li><a href="https://github.com/nikkow/node-red-tahoma" target="_blank">GitHub</a> - the nodes github repository</li>
+  </ul>
+</script>

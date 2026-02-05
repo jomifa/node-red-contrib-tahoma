@@ -1,0 +1,19 @@
+"use strict";
+var somfy_api_1 = require("../core/somfy-api");
+module.exports = function (RED) {
+    RED.nodes.registerType('tahoma-read', function (props) {
+        var _this = this;
+        RED.nodes.createNode(this, props);
+        var config = RED.nodes.getNode(props['tahomabox']);
+        this['device'] = props.device;
+        this['tahomabox'] = props.tahomabox;
+        this['name'] = props.name;
+        this.on('input', function (msg) {
+            var somfyClient = new somfy_api_1.SomfyApi(config);
+            somfyClient.getDevice(_this['device']).then(function (deviceData) {
+                msg.payload = deviceData;
+                _this.send(msg);
+            });
+        });
+    });
+};
