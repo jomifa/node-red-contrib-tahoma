@@ -11,6 +11,8 @@
 ![license](https://img.shields.io/github/license/nikkow/node-red-contrib-tahoma.svg)
 ![code size](https://img.shields.io/github/languages/code-size/nikkow/node-red-contrib-tahoma)
 
+Fork of Nikkhow (Nicolas Nunge) package, with merge of @packyr and @blondak forks. With some clean-up, adds (Europe/America/Oceania Somfy server choice for API token generation) and removal (watson/bonjour outdated package as dependency which implied some security vulnerability).
+
 ## 🚨 Important Note vor v2.x and v1.x users
 
 This 3rd version implements a new API released by Somfy (yes, another one). This time, it no longer relies on any cloud-based API, but will directly discuss with your local Tahoma box.
