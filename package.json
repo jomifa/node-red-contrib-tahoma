@@ -33,6 +33,8 @@
     "doc": "docs"
   },
   "scripts": {
+	  "build-windows" : "mkdir .\\dist\\nodes && copy .\\src\\nodes\\*.html .\\dist\\nodes\\ && tsc",
+    "build-linux" : "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes/ && tsc",
     "build": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes/ && tsc",
     "execute": "npm run build && node-red",
     "lint": "eslint src/**/*.ts"
