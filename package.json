@@ -1,18 +1,7 @@
 {
   "name": "@nils-github1/node-red-contrib-tahoma",
-  "description": "Control a Somfy TaHoma box from Node RED",
   "version": "3.0.1",
-  "homepage": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/",
-  "main": "index.js",
-  "scripts": {
-    "build": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes/ && tsc",
-    "execute": "npm run build && node-red",
-    "lint": "eslint src/**/*.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nils-GitHub1/node-red-contrib-tahoma.git"
-  },
+  "description": "Control a Somfy TaHoma box from Node RED",
   "keywords": [
     "node",
     "red",
@@ -22,26 +11,31 @@
     "home",
     "automation"
   ],
-  "author": {
-        "name": "Nicolas Nunge <me@nikkow.eu>",
-        "url": "https://github.com/nikkow/node-red-contrib-tahoma"
-  },
-  "contributors": [
-    {
-      "name": "Nils-GitHub1",
-      "url": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/"
-    }
-  ],
-  "license": "Apache-2.0",
+  "homepage": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/",
   "bugs": {
     "url": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/issues"
   },
-  "node-red": {
-    "nodes": {
-      "tahoma": "dist/nodes/tahoma.js",
-      "tahoma-config": "dist/nodes/tahoma-config.js",
-      "tahoma-read": "dist/nodes/tahoma-read.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nils-GitHub1/node-red-contrib-tahoma.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Nicolas Nunge <me@nikkow.eu> (https://github.com/nikkow/node-red-contrib-tahoma)",
+  "contributors": [
+    {
+      "name": "nils-github1",
+      "url": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/"
     }
+  ],
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes/ && tsc",
+    "execute": "npm run build && node-red",
+    "lint": "eslint src/**/*.ts"
   },
   "dependencies": {
     "axios": ">=0.26.1"
@@ -57,5 +51,12 @@
     "prettier": ">=2.6.2",
     "tslint": ">=6.1.3",
     "typescript": ">=4.6.3"
+  },
+  "node-red": {
+    "nodes": {
+      "tahoma": "dist/nodes/tahoma.js",
+      "tahoma-config": "dist/nodes/tahoma-config.js",
+      "tahoma-read": "dist/nodes/tahoma-read.js"
+    }
   }
 }
