@@ -21,6 +21,9 @@ All notable changes to this project will be documented in this file.
 - Merged @packyr fork with @blondak fork.
 - Merged pull request #62 from original Nikkow version.
 - Added scope in package name as per Node Red updated naming requirements since 31st January 2022.
+- Removed watson/bonjour old dependency as this package is not anymore maintained and introduce security vulnerability
+- Added Europe/Americas/Oceania Somfy servers selection for API token creation
+- Added date and time in created token name to ease identification
 
 ## [3.0.0-beta.5] - 2022-06-04
 
