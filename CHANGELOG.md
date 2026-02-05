@@ -1,6 +1,23 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [3.0.1] - 2026-02-05
+
+---
+
+⚠️ This release was not tested on all possible Somfy hardware. Use it at your own risk.
+
+---
+
+---
+
+🚨 **This release is a major version and contains some breaking changes. Please read the list below.**
+
+---
+
+### Added
+
+- Include 3.0.0-beta.6 changes
 
 ## [3.0.0-beta.6] - 2026-01-08
 
