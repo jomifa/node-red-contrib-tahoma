@@ -21,21 +21,14 @@ export = (RED: nodered.NodeAPI): void => {
   );
 
   RED.httpAdmin.post('/somfy/get-token', async (request, response) => {
-    const { userId, userPassword, tahomaPin, somfyOverkizSrvUrl, boxDiscovery, } = request.body;
+    const { userId, userPassword, tahomaPin, somfyOverkizSrvUrl, } = request.body;
     const token = await SomfyApi.getLocalToken(userId, userPassword, tahomaPin, somfyOverkizSrvUrl);
     if (token === null) {
       response.status(HttpResponse.BAD_REQUEST);
       response.send();
       return;
     }
-    if(boxDiscovery === true){
-      const _discovery = new DiscoveryService();
-      const devices = await _discovery.getDevices(tahomaPin);
-      response.json({ token: token, devices });
-    }
-    else{
-          response.json({ token: token });
-    }
+    response.json({ token: token });
   });
 
   RED.httpAdmin.get('/somfy/:account/devices', function (req, res) {

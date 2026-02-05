@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "axios": ">=0.26.1",
-    "bonjour": ">=3.5.0"
   },
   "devDependencies": {
     "@types/node": ">=17.0.24",

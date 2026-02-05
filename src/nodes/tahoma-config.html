@@ -24,10 +24,6 @@
       $('button.api-link').on('click', () => {
         const pinCode = $('#node-config-input-pin').val();
         RED.notify(`Connecting to Somfy Overkiz server to generate and activate the local token ... ${LOGIN_URL}`, { type: "success", timeout: 5000 });
-        const boxDiscovery = false;
-        if($('#node-config-input-bonjour').is(':checked')){
-          boxDiscovery = true;
-        }
         $.ajax({
           url: `${window.location.protocol}//${window.location.host}${window.location.pathname}somfy/get-token`,
           method: 'POST',
@@ -36,7 +32,6 @@
             userPassword: $('#node-config-input-password').val(),
             tahomaPin: pinCode,
             somfyOverkizSrvUrl: $('#node-config-input-regional-srv').val(),
-            boxDiscovery: boxDiscovery,
           },
           success: (response) => {
             $('#node-config-input-token').val(response.token);
@@ -72,14 +67,10 @@
 <script type="text/x-red" data-template-name="tahoma-config">
   <p>In order to properly configure your TaHoma nodes, you need first to be enable the <b>Developer Mode</b> using the TaHoma mobile app </p><a href="https://github.com/Somfy-Developer/Somfy-TaHoma-Developer-Mode/blob/main/README.md" target="_blank">How to do it</a><p><b>But do not generate a token like mentioned in this How To</b>. Then please fill-in the following fields : <b><i>Connection name</i>, <i>TaHoma box local URL</i>, <i>TaHoma box PIN</i></b>.</p>
   <p>Then, after activation of the developer mode, a token needs to be generated <b>AND</b> activated here in Node Red. To do this, enter your TaHoma app login information (email and password, used once and not saved) below to create and activate a token that will then be used to locally connect to your TaHoma box. Click on the <b>Generate new token</b> button.</p>
-  <p><b>Note:</b> This config node may scan your network to try to find your TaHoma URL and port (using mDNS) if it is on the same LAN as Node Red. If the field <i>TaHoma URL</i> remains empty, please ensure that the developer mode is enabled and indicate manually the URL and port of your TaHoma box.</p>
+  <p><b>Note:</b> If you do not kown the IP address of your TaHoma box and are on the same LAN, you may find it with mDNS network discovery. If you do not see the box on the network, please ensure that the developer mode is enabled. Then enter the found URL and port of your TaHoma box.</p>
   <div class="form-row">
       <label for="node-config-input-connectionname"><i class="icon-bookmark"></i> Connection Name:</label>
       <input type="text" id="node-config-input-connectionname">
-  </div>
-  <div class="form-row api-credentials hidden-on-ok">
-    <label for="node-config-input-bonjour"><i class="icon-bookmark"></i> Use Bonjour to find the URL:</label>
-    <input type="checkbox" id="node-config-input-bonjour">
   </div>
   <div class="form-row api-credentials">
     <label for="node-config-input-url"><i class="icon-bookmark"></i> TaHoma box URL:</label>
