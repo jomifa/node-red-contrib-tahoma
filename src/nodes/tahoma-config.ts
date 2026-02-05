@@ -3,7 +3,6 @@ import { SomfyApi } from '../core/somfy-api';
 import { HttpResponse } from '../enums/http-response.enum';
 import { TahomaConfigNodeDef } from './tahoma-config.def';
 import { IDevice } from '../interfaces/device';
-import { DiscoveryService } from '../core/discovery';
 
 export = (RED: nodered.NodeAPI): void => {
   RED.nodes.registerType(
