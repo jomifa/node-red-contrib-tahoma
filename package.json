@@ -1,7 +1,7 @@
 {
-  "name": "@Nils-GitHub1/node-red-contrib-tahoma",
-  "version": "3.0.0-beta.6",
+  "name": "@nils-github1/node-red-contrib-tahoma",
   "description": "Control a Somfy TaHoma box from Node RED",
+  "version": "3.0.0-beta.6",
   "homepage": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,6 @@
     "home",
     "automation"
   ],
-  "author": "Nicolas Nunge <me@nikkow.eu>",
   "author": {
         "name": "Nicolas Nunge <me@nikkow.eu>",
         "url": "https://github.com/nikkow/node-red-contrib-tahoma"
@@ -31,13 +30,12 @@
     {
       "name": "Nils-GitHub1",
       "url": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/"
-    },
+    }
   ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma/issues"
   },
-  "homepage": "https://github.com/Nils-GitHub1/node-red-contrib-tahoma#readme",
   "node-red": {
     "nodes": {
       "tahoma": "dist/nodes/tahoma.js",
@@ -46,7 +44,7 @@
     }
   },
   "dependencies": {
-    "axios": ">=0.26.1",
+    "axios": ">=0.26.1"
   },
   "devDependencies": {
     "@types/node": ">=17.0.24",
