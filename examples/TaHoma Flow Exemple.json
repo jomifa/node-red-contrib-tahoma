@@ -1,0 +1,262 @@
+[
+    {
+        "id": "e1e67893bd4df1e8",
+        "type": "tab",
+        "label": "TaHoma Flow Exemple",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5569ae9452c33c3a",
+        "type": "tahoma-read",
+        "z": "e1e67893bd4df1e8",
+        "tahomabox": "eaa767256cfa2e84",
+        "name": "",
+        "device": "io://1234-5678-9012/15058911",
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "654ead41fe7543c3"
+            ]
+        ]
+    },
+    {
+        "id": "1a082700cc086b5f",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 160,
+        "wires": [
+            [
+                "5569ae9452c33c3a"
+            ]
+        ]
+    },
+    {
+        "id": "654ead41fe7543c3",
+        "type": "debug",
+        "z": "e1e67893bd4df1e8",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "6bbf5370d72cdd85",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "Open",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"action\":\"open\"}",
+        "payloadType": "json",
+        "x": 210,
+        "y": 400,
+        "wires": [
+            [
+                "b935c7d67325b1c5"
+            ]
+        ]
+    },
+    {
+        "id": "764a69b5b6fa7446",
+        "type": "debug",
+        "z": "e1e67893bd4df1e8",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b935c7d67325b1c5",
+        "type": "tahoma",
+        "z": "e1e67893bd4df1e8",
+        "tahomabox": "eaa767256cfa2e84",
+        "name": "Tahoma Node (send action)",
+        "device": "io://1234-5678-9012/15058911",
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "764a69b5b6fa7446"
+            ]
+        ]
+    },
+    {
+        "id": "63671119ce97c40b",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "Close",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{ \"action\":\"close\" }",
+        "payloadType": "json",
+        "x": 210,
+        "y": 300,
+        "wires": [
+            [
+                "b935c7d67325b1c5"
+            ]
+        ]
+    },
+    {
+        "id": "f5c81803ae3319ad",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "Stop",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{ \"action\":\"stop\" }",
+        "payloadType": "json",
+        "x": 210,
+        "y": 340,
+        "wires": [
+            [
+                "b935c7d67325b1c5"
+            ]
+        ]
+    },
+    {
+        "id": "4a063f25ce96189b",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "Set Orientation",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"action\":\"customOrientation\",\"orientation\":0}",
+        "payloadType": "json",
+        "x": 240,
+        "y": 460,
+        "wires": [
+            [
+                "b935c7d67325b1c5"
+            ]
+        ]
+    },
+    {
+        "id": "8fc04c4738ef7b3f",
+        "type": "inject",
+        "z": "e1e67893bd4df1e8",
+        "name": "Set Position",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"action\":\"customPosition\",\"position\":50}",
+        "payloadType": "json",
+        "x": 230,
+        "y": 540,
+        "wires": [
+            [
+                "b935c7d67325b1c5"
+            ]
+        ]
+    },
+    {
+        "id": "eaa767256cfa2e84",
+        "type": "tahoma-config",
+        "connectionname": "My-TaHoma-Box",
+        "pin": "1234-5678-9012",
+        "token": "696a94d3c09bbd721c4",
+        "url": "https://192.168.1.55:8443"
+    },
+    {
+        "id": "e1bdf740636477c6",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@nils-github1/node-red-contrib-tahoma": "3.2.0"
+        }
+    }
+]
