@@ -4,12 +4,6 @@
 
 # Somfy Tahoma for Node-RED
 
-
-[![npm](https://img.shields.io/npm/v/node-red-contrib-tahoma.svg)](https://www.npmjs.com/package/node-red-contrib-tahoma)
-[![npm](https://img.shields.io/npm/dt/node-red-contrib-tahoma.svg)](https://www.npmjs.com/package/node-red-contrib-tahoma)
-![license](https://img.shields.io/github/license/nikkow/node-red-contrib-tahoma.svg)
-![code size](https://img.shields.io/github/languages/code-size/nikkow/node-red-contrib-tahoma)
-
 Fork of Nikkhow (Nicolas Nunge) package, with merge of @packyr and @blondak forks. With some clean-up, adds (Europe/America/Oceania Somfy server choice for API token generation) and removal (watson/bonjour outdated package as dependency which implied some security vulnerability).
 
 ## 🚨 Important Note vor v2.x and v1.x users
