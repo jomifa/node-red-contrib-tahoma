@@ -109,10 +109,13 @@ export class SomfyApi {
     this.configNode = configNode;
 
     this.axiosInstance.interceptors.request.use(
-      (request: AxiosRequestConfig) => {
-        request.headers['Authorization'] = `Bearer ${this.getAccessToken()}`;
-        return request;
+      config => {
+        config.headers['Authorization'] = `Bearer ${this.getAccessToken()}`;
+          return config;
       },
+      error => {
+        return Promise.reject(error);
+      }
     );
   }
 
