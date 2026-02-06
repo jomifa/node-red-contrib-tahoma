@@ -6,7 +6,7 @@
 
 Fork of Nikkhow (Nicolas Nunge) package, with merge of @packyr and @blondak forks. With some clean-up, adds (Europe/America/Oceania Somfy server choice for API token generation) and removal (watson/bonjour outdated package as dependency which implied some security vulnerability).
 
-## 🚨 Important Note vor v2.x and v1.x users
+## Important Note for users of legacy v2.x and v1.x of Nikkhow versions (and potentially other forks)
 
 This 3rd version implements a new API released by Somfy (yes, another one). This time, it no longer relies on any cloud-based API, but will directly discuss with your local Tahoma box.
 
@@ -18,9 +18,11 @@ Basically, the only requirement is to host the node-red instance on the same net
 
 Even though your flows should not be modified, the [config-node](https://nodered.org/docs/user-guide/editor/workspace/nodes#configuration-nodes) must be reconfigured using this new API.
 
+The Node IDs of this fork have been kept the same as the Nikkow version to ease the transition of existing Node Red flows (export your flows, uninstall Nikkow package, install this one, import your flows).
+
 **However**, please note that even though this release was tested before being published, you might encounter unexpected issues. **Please backup your flow before proceeding with this major release**.
 
-## Setup
+## 🚨 Setup
 
 You can read this [guide](https://nodered.org/docs/getting-started/adding-nodes) from Node-RED official portal. This will help you install this node. Typically, the command are as follows:
 
@@ -34,9 +36,9 @@ This software is provided **as-is**. Be careful: your devices can be fully contr
 
 This node relies on the Local API provided by Somfy, and available on the Tahoma box (from v2 onwards -as per Somfy documentation). 
 
-You will need to **enable the developer mode** on your Somfy account to use this module. This [guide](https://github.com/nikkow/node-red-contrib-tahoma/wiki/How-to-enable-the-developer-mode%3F) will walk you through this process.
+You will need to **enable the developer mode** on your Somfy account to use this module. This [guide](https://github.com/Somfy-Developer/Somfy-TaHoma-Developer-Mode) will walk you through this process.
 
-When creating your first node, you will be asked to provide your e-mail and password used to login to your TaHoma mobile app. These will be used to generate a token to interact with your box (they will not be saved at all on your instance). The pin code of your TaHoma box will also be required. This information is available in the TaHoma mobile app and on the sticker below the box.
+When creating your first node, you will be asked to configure the TaHoma Box config node. For this, your will have to provide temporarily your e-mail and password used to login to your TaHoma mobile app. These will be used to generate a token to interact with your box (they will not be saved at all on your instance). The pin code of your TaHoma box will also be required. This information is available in the TaHoma mobile app and on the sticker below the box.
 
 ## Usage
 
