@@ -37,12 +37,12 @@ enum TahomaCommands {
 interface ITahomaControlInstructions {
   command: TahomaCommands;
   parameters?: number[];
-  expectedState?: {
-    open?: boolean;
-    position?: number;
-    orientation?: number;
-    onOff?: string;
-    intensity?: number;
+  expectedState?: { 
+    open?: boolean; 
+    position?: number; 
+    orientation?: number; 
+    onOff?: string; 
+    intensity?: number; 
     repetitions?: number;
   };
   labels: {
@@ -59,7 +59,6 @@ const validateStatus = (
   new Promise((resolve, reject) =>
     setTimeout(() => {
       const somfyClient = new SomfyApi(configNode);
-
       somfyClient
         .getStatusForExecutionId(execId)
         .then((status) => {
@@ -121,17 +120,11 @@ export = (RED: nodered.NodeAPI) => {
           .execute(this['device'], command)
           .then((commandExecutionResponse: ICommandExecutionResponse) => {
             if (!instructions.expectedState) {
-              this.status({
-                fill: 'grey',
-                shape: 'dot',
-                text: 'Unknown',
-              });
+              this.status({ fill: 'grey', shape: 'dot', text: 'Unknown' });
               this.send(msg);
               return;
             }
-
             const execId = commandExecutionResponse.execId;
-
             return continueWhenCompleted(configNode, execId).then(() => {
               this.status({
                 fill: 'green',
@@ -143,13 +136,11 @@ export = (RED: nodered.NodeAPI) => {
           })
           .catch((error) => {
             const message = error instanceof Error ? error.message : String(error);
-
             this.status({
               fill: 'red',
               shape: 'ring',
               text: 'TaHoma not reachable',
             });
-
             this.error(`TaHoma error: ${message}`, msg);
           });
       });
@@ -159,13 +150,13 @@ export = (RED: nodered.NodeAPI) => {
 
 function getBoolean(value: any): boolean {
   switch (String(value).toLowerCase()) {
-    case 'true':
-    case '1':
-    case 'on':
-    case 'yes':
-      return true;
+    case 'true': 
+    case '1': 
+    case 'on': 
+    case 'yes': 
+      return true; 
   }
-  return false;
+  return false; 
 }
 
 function generateInstructionsFromPayload(
@@ -221,9 +212,9 @@ function generateInstructionsFromPayload(
     case 'customClosureAndOrientation':
       return {
         command: TahomaCommands.SET_CLOSURE_AND_ORIENTATION,
-        expectedState: {
-          position: parseInt(payload.position, 10),
-          orientation: parseInt(payload.orientation, 10),
+        expectedState: { 
+          position: parseInt(payload.position, 10), 
+          orientation: parseInt(payload.orientation, 10)
         },
         labels: {
           done: `Set to position:${payload.position}, orientation:${payload.orientation}`,
