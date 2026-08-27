@@ -37,12 +37,12 @@ enum TahomaCommands {
 interface ITahomaControlInstructions {
   command: TahomaCommands;
   parameters?: number[];
-  expectedState?: { 
-    open?: boolean; 
-    position?: number; 
-    orientation?: number; 
-    onOff?: string; 
-    intensity?: number; 
+  expectedState?: {
+    open?: boolean;
+    position?: number;
+    orientation?: number;
+    onOff?: string;
+    intensity?: number;
     repetitions?: number;
   };
   labels: {
@@ -56,11 +56,16 @@ const validateStatus = (
   configNode: nodered.Node,
   execId: string,
 ): Promise<boolean> =>
-  new Promise((resolve) =>
-    setTimeout(async () => {
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
       const somfyClient = new SomfyApi(configNode);
-      const status = await somfyClient.getStatusForExecutionId(execId);
-      resolve(status === null);
+
+      somfyClient
+        .getStatusForExecutionId(execId)
+        .then((status) => {
+          resolve(status === null);
+        })
+        .catch(reject);
     }, STATE_VALIDATOR_POLLING_DELAY),
   );
 
@@ -116,12 +121,18 @@ export = (RED: nodered.NodeAPI) => {
           .execute(this['device'], command)
           .then((commandExecutionResponse: ICommandExecutionResponse) => {
             if (!instructions.expectedState) {
-              this.status({ fill: 'grey', shape: 'dot', text: 'Unknown' });
+              this.status({
+                fill: 'grey',
+                shape: 'dot',
+                text: 'Unknown',
+              });
               this.send(msg);
               return;
             }
+
             const execId = commandExecutionResponse.execId;
-            continueWhenCompleted(configNode, execId).then(() => {
+
+            return continueWhenCompleted(configNode, execId).then(() => {
               this.status({
                 fill: 'green',
                 shape: 'dot',
@@ -129,6 +140,17 @@ export = (RED: nodered.NodeAPI) => {
               });
               this.send(msg);
             });
+          })
+          .catch((error) => {
+            const message = error instanceof Error ? error.message : String(error);
+
+            this.status({
+              fill: 'red',
+              shape: 'ring',
+              text: 'TaHoma not reachable',
+            });
+
+            this.error(`TaHoma error: ${message}`, msg);
           });
       });
     },
@@ -137,13 +159,13 @@ export = (RED: nodered.NodeAPI) => {
 
 function getBoolean(value: any): boolean {
   switch (String(value).toLowerCase()) {
-    case 'true': 
-    case '1': 
-    case 'on': 
-    case 'yes': 
-      return true; 
+    case 'true':
+    case '1':
+    case 'on':
+    case 'yes':
+      return true;
   }
-  return false; 
+  return false;
 }
 
 function generateInstructionsFromPayload(
@@ -199,9 +221,9 @@ function generateInstructionsFromPayload(
     case 'customClosureAndOrientation':
       return {
         command: TahomaCommands.SET_CLOSURE_AND_ORIENTATION,
-        expectedState: { 
-          position: parseInt(payload.position, 10), 
-          orientation: parseInt(payload.orientation, 10)
+        expectedState: {
+          position: parseInt(payload.position, 10),
+          orientation: parseInt(payload.orientation, 10),
         },
         labels: {
           done: `Set to position:${payload.position}, orientation:${payload.orientation}`,
